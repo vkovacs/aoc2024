@@ -25,3 +25,22 @@ lines.size().times {
 }
 
 println(sumDistance)
+
+//part2
+
+def left = []
+def right = []
+lines.each { line ->
+    def values = line.split(" +").collect { it.toInteger() } as int[]
+    def (v0, v1) = values
+    left << v0
+    right << v1
+}
+
+def rightFrequencyMap = right.countBy {it}
+
+similarityScore = left.sum {
+    it * (rightFrequencyMap[it] ?: 0)
+}
+
+println(similarityScore)
