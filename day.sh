@@ -15,6 +15,11 @@ mkdir -p ./src/main/resources/"$PARAMETER"
 # Create the parameter.groovy file
 GROOVY_FILE=./src/main/groovy/"$PARAMETER"/"$PARAMETER".groovy
 if [ ! -f "$GROOVY_FILE" ]; then
+  echo "package $PARAMETER" > "$GROOVY_FILE"
+  echo ""  >> "$GROOVY_FILE"
+  echo "def inputFile = new File(\"../../resources/$PARAMETER/input\")" >> "$GROOVY_FILE"
+  echo "def testInputFile = new File(\"../../resources/$PARAMETER/input-test\")" >> "$GROOVY_FILE"
+
   echo "// Groovy file for $PARAMETER" > "$GROOVY_FILE"
   echo "Created $GROOVY_FILE"
 else
