@@ -20,7 +20,6 @@ if [ ! -f "$GROOVY_FILE" ]; then
   echo "def inputFile = new File(\"../../resources/$PARAMETER/input\")" >> "$GROOVY_FILE"
   echo "def testInputFile = new File(\"../../resources/$PARAMETER/input-test\")" >> "$GROOVY_FILE"
 
-  echo "// Groovy file for $PARAMETER" > "$GROOVY_FILE"
   echo "Created $GROOVY_FILE"
 else
   echo "$GROOVY_FILE already exists."
