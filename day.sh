@@ -19,6 +19,14 @@ if [ ! -f "$GROOVY_FILE" ]; then
   echo ""  >> "$GROOVY_FILE"
   echo "def inputFile = new File(\"../../resources/$PARAMETER/input\")" >> "$GROOVY_FILE"
   echo "def testInputFile = new File(\"../../resources/$PARAMETER/input-test\")" >> "$GROOVY_FILE"
+  echo "" >> "$GROOVY_FILE"
+  echo "def part1() {" >> "$GROOVY_FILE"
+  echo "" >> "$GROOVY_FILE"
+  echo "}" >> "$GROOVY_FILE"
+  echo "" >> "$GROOVY_FILE"
+  echo "def part2() {" >> "$GROOVY_FILE"
+  echo "" >> "$GROOVY_FILE"
+  echo "}" >> "$GROOVY_FILE"
 
   echo "Created $GROOVY_FILE"
 else
@@ -28,7 +36,7 @@ fi
 # Create the input file
 INPUT_FILE=./src/main/resources/"$PARAMETER"/input
 if [ ! -f "$INPUT_FILE" ]; then
-  echo "Placeholder content for input" > "$INPUT_FILE"
+  echo "" > "$INPUT_FILE"
   echo "Created $INPUT_FILE"
 else
   echo "$INPUT_FILE already exists."
@@ -37,7 +45,7 @@ fi
 # Create the input-test file
 INPUT_TEST_FILE=./src/main/resources/"$PARAMETER"/input-test
 if [ ! -f "$INPUT_TEST_FILE" ]; then
-  echo "Placeholder content for input-test" > "$INPUT_TEST_FILE"
+  echo "" > "$INPUT_TEST_FILE"
   echo "Created $INPUT_TEST_FILE"
 else
   echo "$INPUT_TEST_FILE already exists."
