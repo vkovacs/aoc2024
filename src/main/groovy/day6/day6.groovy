@@ -94,8 +94,61 @@ def part1(map, start) {
     }
 }
 
-def part2() {
+@ToString
+@EqualsAndHashCode
+class VisitedPlace {
+    Coordinate coordinate
+    Direction direction
 
+    VisitedPlace(Coordinate coordinate, Direction direction) {
+        this.coordinate = coordinate
+        this.direction = direction
+    }
+}
+
+def isLoop(map, maxX, maxY, start) {
+    def direction = N
+    def visitedCoordinates = [] as Set
+
+    def current = start
+    while (!visitedCoordinates.contains(new VisitedPlace(current, direction))) {
+        def maybeNext = forwardCoordinate(current, direction, maxX, maxY)
+        if (maybeNext == null) {
+            return false
+        }
+
+        def maybeNextChar = map[maybeNext.x][maybeNext.y]
+        if (maybeNextChar == ".") {
+            visitedCoordinates << new VisitedPlace(current, direction)
+            map[current.x][current.y] = "."
+            current = maybeNext
+        } else {
+            direction = turn90[direction.name]
+        }
+    }
+    true
+}
+
+def part2(map, start) {
+    def maxX = map.size()
+    def maxY = map[0].size()
+
+    def loopCount = 0
+
+    for (i in (0..<maxX)) {
+        if (i % 10 == 0) println "i: $i"
+        for (j in (0..<maxY)) {
+            if (map[i][j] == ".") {
+                map[i][j] = "O"
+                if (isLoop(map, maxX, maxY, start)) {
+                    loopCount++
+                }
+                map[i][j] = "."
+            }
+        }
+    }
+
+    loopCount
 }
 
 testSolution1 = part1(*read(testInputFile))
@@ -105,3 +158,11 @@ assert testSolution1 == 41
 solution1 = part1(*read(inputFile))
 println solution1
 assert solution1 == 4890
+
+testSolution2 = part2(*read(testInputFile))
+println testSolution2
+assert testSolution2 == 6
+
+solution2 = part2(*read(inputFile))
+println solution2
+assert solution2 == 1995
