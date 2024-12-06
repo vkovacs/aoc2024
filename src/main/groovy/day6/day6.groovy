@@ -79,7 +79,7 @@ def part1(map, start) {
         def maybeNext = forwardCoordinate(current, direction, maxX, maxY)
         if (maybeNext == null) {
             visitedCoordinates << current
-            return visitedCoordinates.size()
+            return visitedCoordinates
         }
 
         def maybeNextChar = map[maybeNext.x][maybeNext.y]
@@ -129,40 +129,41 @@ def isLoop(map, maxX, maxY, start) {
     true
 }
 
-def part2(map, start) {
+def part2(map, start, visited) {
     def maxX = map.size()
     def maxY = map[0].size()
 
     def loopCount = 0
 
-    for (i in (0..<maxX)) {
-        if (i % 10 == 0) println "i: $i"
-        for (j in (0..<maxY)) {
-            if (map[i][j] == ".") {
-                map[i][j] = "O"
-                if (isLoop(map, maxX, maxY, start)) {
-                    loopCount++
-                }
-                map[i][j] = "."
+    for (coordinate in visited) {
+        def i = coordinate.x
+        def j = coordinate.y
+        if (map[i][j] == ".") {
+            map[i][j] = "O"
+            if (isLoop(map, maxX, maxY, start)) {
+                loopCount++
             }
+            map[i][j] = "."
         }
     }
 
     loopCount
 }
 
-testSolution1 = part1(*read(testInputFile))
+testVisited1 = part1(*read(testInputFile))
+testSolution1 = testVisited1.size()
 println testSolution1
 assert testSolution1 == 41
 
-solution1 = part1(*read(inputFile))
+visited1 =  part1(*read(inputFile))
+solution1 = visited1.size()
 println solution1
 assert solution1 == 4890
 
-testSolution2 = part2(*read(testInputFile))
+testSolution2 = part2(*read(testInputFile), testVisited1)
 println testSolution2
 assert testSolution2 == 6
 
-solution2 = part2(*read(inputFile))
+solution2 = part2(*read(inputFile), visited1)
 println solution2
 assert solution2 == 1995
