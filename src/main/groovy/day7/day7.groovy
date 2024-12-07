@@ -35,6 +35,7 @@ def calculate(operators, numbers) {
         def product = switch (operator) {
             case "+" -> first + second
             case "*" -> first * second
+            case "|" -> (first.toString() + second.toString()).toLong()
         }
 
         tmpNumbers.add(0, product)
@@ -43,19 +44,20 @@ def calculate(operators, numbers) {
     tmpNumbers[0]
 }
 
-def part1(input) {
-    def sum = 0
+def part1(input, ops) {
+    long sum = 0
 
     for (line in input) {
+        println(line)
         def expectedProduct = line.first()
         def numbers = line.drop(1)
 
-        def operators = operatorCombinations(["+","*"], numbers.size() - 1)
+        def operators = operatorCombinations(ops, numbers.size() - 1)
 
         for (o in operators) {
             def product = calculate(o, numbers)
             if (product == expectedProduct) {
-                sum+=product
+                sum += product
                 break
             }
         }
@@ -63,15 +65,18 @@ def part1(input) {
     sum
 }
 
-def part2() {
-
-}
-
-
-def testSolution1 = part1(read(testInputFile))
+def testSolution1 = part1(read(testInputFile), ["+","*"])
 println(testSolution1)
 assert testSolution1 == 3749
 
-def solution1 = part1(read(inputFile))
+def solution1 = part1(read(inputFile), ["+","*"])
 println(solution1)
-asset solution1 == 3351424677624
+assert solution1 == 3351424677624
+
+def testSolution2 = part1(read(testInputFile), ["+", "*", "|"])
+println(testSolution2)
+assert testSolution2 == 11387
+
+def solution2 = part1(read(inputFile), ["+", "*", "|"])
+println(solution2)
+assert solution2 == 204976636995111
