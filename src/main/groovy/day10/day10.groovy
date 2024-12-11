@@ -40,8 +40,22 @@ def score(map, i, j, currentHeight, visited) {
     count
 }
 
+def score2(map, i, j, currentHeight) {
+    if (currentHeight == 9) return 1
+
+    def directions = [[-1, 0], [0, 1], [1, 0], [0, -1]]
+    def validNeighbours = neighbours(map, i, j, directions).findAll { n -> map[n[0]][n[1]] == currentHeight + 1 }
+    if (validNeighbours.isEmpty()) return 0
+
+    def count = 0
+    for (neighbour in validNeighbours) {
+        count += score2(map, neighbour[0], neighbour[1], currentHeight + 1)
+    }
+
+    count
+}
+
 def part1(map) {
-    //println(map)
     def sumScore = 0
     for (i in (0..<map.size())) {
         for (j in (0..map[i].size())) {
@@ -53,11 +67,19 @@ def part1(map) {
     sumScore
 }
 
-def part2() {
-
+def part2(map) {
+    def sumScore = 0
+    for (i in (0..<map.size())) {
+        for (j in (0..map[i].size())) {
+            if (map[i][j] == 0) {
+                sumScore += score2(map, i, j, 0)
+            }
+        }
+    }
+    sumScore
 }
-//def m = read(testInputFile)
-//println score(m, 0, 2, 0, [] as Set)
 
 assert part1(read(testInputFile)) == 36
 assert part1(read(inputFile)) == 607
+assert part2(read(testInputFile)) == 81
+assert part2(read(inputFile)) == 1384
